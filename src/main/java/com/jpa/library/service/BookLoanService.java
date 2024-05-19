@@ -1,23 +1,18 @@
 package com.jpa.library.service;
 
-import com.jpa.library.dto.AuthorForm;
 import com.jpa.library.dto.BookLoanForm;
-import com.jpa.library.entity.Author;
+import com.jpa.library.dto.BookLoanResult;
 import com.jpa.library.entity.Book;
 import com.jpa.library.entity.BookLoan;
 import com.jpa.library.exception.EntityNotFoundException;
-import com.jpa.library.repository.AuthorRepository;
 import com.jpa.library.repository.BookLoanRepository;
 import com.jpa.library.repository.BookRepository;
-import com.jpa.library.util.LoanPeriodUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,11 +32,16 @@ public class BookLoanService {
     }
 
     @Transactional
-    public void loan(BookLoanForm bookLoanForm) {
+    public BookLoanResult loan(BookLoanForm bookLoanForm) {
         Book book = bookRepository.findById(bookLoanForm.getBookId())
                 .orElseThrow(() -> new EntityNotFoundException("Book with ID " + bookLoanForm.getBookId() + " not found"));
 
         int unreturnedQuantity = bookLoanRepository.findUnreturnedBookLoansByBookId(bookLoanForm.getBookId()).size();
-        bookLoanRepository.save(book.loan(bookLoanForm, unreturnedQuantity));
+
+        BookLoan loan = book.loan(bookLoanForm, unreturnedQuantity);
+
+        bookLoanRepository.save(loan);
+
+        return new BookLoanResult(loan.getBook().getTitle(), loan.getBorrowerName(), loan.getLoanDate(), loan.getDueDate());
     }
 }
