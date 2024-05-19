@@ -6,7 +6,6 @@ import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Book;
 import com.jpa.library.entity.BookLoan;
 import com.jpa.library.entity.Publisher;
-import com.jpa.library.repository.BookLoanRepository;
 import com.jpa.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,5 +47,4 @@ public class BookService {
         }
         return bookSummaries;
     }
-
 }

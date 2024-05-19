@@ -50,7 +50,7 @@ public class Book {
             throw new IllegalArgumentException("대여 불가능한 책입니다.");
         }
         if ((unreturnedQuantity + 1) >= totalQuantity) {
-            this.status  = BookStatus.UNAVAILABLE;
+            this.status = BookStatus.UNAVAILABLE;
         }
         LocalDateTime dueDate = bookLoanForm.getLoanDate().plusDays(LoanPeriodUtil.getLoanDays(this.totalQuantity));
 

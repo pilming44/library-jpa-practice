@@ -19,6 +19,6 @@ public class BookLoanRestController {
 
     @PostMapping("/book/loan")
     public ResponseEntity<ResultWrapper> addBookLoan(@Validated BookLoanForm bookLoanForm) {
-        return new ResponseEntity(new ResultWrapper<>(bookLoanService.loan(bookLoanForm)),HttpStatus.CREATED);
+        return new ResponseEntity(new ResultWrapper<>(bookLoanService.loan(bookLoanForm)), HttpStatus.CREATED);
     }
 }
