@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +18,7 @@ public class BookLoanRestController {
     private final BookLoanService bookLoanService;
 
     @PostMapping("/book/loan")
-    public ResponseEntity<ResultWrapper> addBookLoan(BookLoanForm bookLoanForm) {
+    public ResponseEntity<ResultWrapper> addBookLoan(@Validated BookLoanForm bookLoanForm) {
         return new ResponseEntity(new ResultWrapper<>(bookLoanService.loan(bookLoanForm)),HttpStatus.CREATED);
     }
 }
