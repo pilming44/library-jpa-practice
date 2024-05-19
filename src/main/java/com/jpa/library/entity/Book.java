@@ -4,7 +4,6 @@ import com.jpa.library.dto.BookLoanForm;
 import com.jpa.library.enums.BookStatus;
 import com.jpa.library.util.LoanPeriodUtil;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -50,7 +49,7 @@ public class Book {
         if (this.status == BookStatus.UNAVAILABLE) {
             throw new IllegalArgumentException("대여 불가능한 책입니다.");
         }
-        if ((unreturnedQuantity + 1) == totalQuantity) {
+        if ((unreturnedQuantity + 1) >= totalQuantity) {
             this.status  = BookStatus.UNAVAILABLE;
         }
         LocalDateTime dueDate = bookLoanForm.getLoanDate().plusDays(LoanPeriodUtil.getLoanDays(this.totalQuantity));
