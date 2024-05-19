@@ -1,6 +1,7 @@
 package com.jpa.library.service;
 
 import com.jpa.library.dto.BookForm;
+import com.jpa.library.dto.BookSearchForm;
 import com.jpa.library.dto.BookSummary;
 import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Book;
@@ -31,8 +32,8 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<BookSummary> findBookSummaryList() {
-        List<Book> bookList = bookRepository.findAll();
+    public List<BookSummary> findBookSummaryList(BookSearchForm bookSearchForm) {
+        List<Book> bookList = bookRepository.findAllBySearchForm(bookSearchForm);
         List<BookSummary> bookSummaries = new ArrayList<>();
         for (Book book : bookList) {
             List<BookLoan> unreturnedBookLoans = bookLoanService.findUnreturnedBookLoansByBookId(book.getId());
