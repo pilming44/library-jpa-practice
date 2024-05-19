@@ -66,4 +66,16 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DuplicateException.class)
+    public ResponseEntity<ResultWrapper> handleDuplicateException(DuplicateException ex, WebRequest request) {
+        ErrorResult errorResult = new ErrorResult(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
+    }
 }
