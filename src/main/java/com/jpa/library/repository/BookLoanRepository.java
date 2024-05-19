@@ -22,4 +22,13 @@ public class BookLoanRepository {
                 .setParameter("bookId", bookId)
                 .getResultList();
     }
+
+    public boolean existsByBookIdAndBorrowerNameAndReturnDateIsNull(Long bookId, String borrowerName) {
+
+        List<BookLoan> results = em.createQuery("SELECT bl FROM BookLoan bl WHERE bl.book.id = :bookId AND bl.borrowerName = :borrowerName AND bl.returnDate IS NULL", BookLoan.class)
+                .setParameter("bookId", bookId)
+                .setParameter("borrowerName", borrowerName)
+                .getResultList();
+        return !results.isEmpty();
+    }
 }

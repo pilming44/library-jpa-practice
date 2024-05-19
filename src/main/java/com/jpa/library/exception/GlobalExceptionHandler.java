@@ -54,4 +54,16 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(BorrowException.class)
+    public ResponseEntity<ResultWrapper> handleBorrowException(BorrowException ex, WebRequest request) {
+        ErrorResult errorResult = new ErrorResult(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage(),
+                request.getDescription(false).replace("uri=", "")
+        );
+        return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
+    }
 }

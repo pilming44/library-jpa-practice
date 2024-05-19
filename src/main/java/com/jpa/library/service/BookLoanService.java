@@ -4,6 +4,7 @@ import com.jpa.library.dto.BookLoanForm;
 import com.jpa.library.dto.BookLoanResult;
 import com.jpa.library.entity.Book;
 import com.jpa.library.entity.BookLoan;
+import com.jpa.library.exception.BorrowException;
 import com.jpa.library.exception.EntityNotFoundException;
 import com.jpa.library.repository.BookLoanRepository;
 import com.jpa.library.repository.BookRepository;
@@ -36,6 +37,8 @@ public class BookLoanService {
         Book book = bookRepository.findById(bookLoanForm.getBookId())
                 .orElseThrow(() -> new EntityNotFoundException("Book with ID " + bookLoanForm.getBookId() + " not found"));
 
+        checkDuplicateLoan(bookLoanForm);
+
         int unreturnedQuantity = bookLoanRepository.findUnreturnedBookLoansByBookId(bookLoanForm.getBookId()).size();
 
         BookLoan loan = book.loan(bookLoanForm, unreturnedQuantity);
@@ -43,5 +46,12 @@ public class BookLoanService {
         bookLoanRepository.save(loan);
 
         return new BookLoanResult(loan.getBook().getTitle(), loan.getBorrowerName(), loan.getLoanDate(), loan.getDueDate());
+    }
+
+    private void checkDuplicateLoan(BookLoanForm bookLoanForm) {
+        boolean isExistsLoan = bookLoanRepository.existsByBookIdAndBorrowerNameAndReturnDateIsNull(bookLoanForm.getBookId(), bookLoanForm.getBorrowerName());
+        if (isExistsLoan) {
+            throw new BorrowException("같은 책을 중복으로 대여할수없습니다.");
+        }
     }
 }
