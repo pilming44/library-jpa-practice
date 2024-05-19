@@ -31,13 +31,13 @@
 # API 기능목록
 - - -
 ### 저자 등록
-- [ ] 저자 이름 입력
-    - [ ] 저자 이름이 없다면 예외발생 - MethodArgumentNotValidException
-    - [ ] 동일한 이름의 저자가 이미 존재하는 경우 예외 발생 - DuplicateException
+- [x] 저자 이름 입력
+    - [x] 저자 이름이 없다면 예외발생 - MethodArgumentNotValidException
+    - [x] 동일한 이름의 저자가 이미 존재하는 경우 예외 발생 - DuplicateException
 ### 출판사 등록
-- [ ] 출판사 명 입력
-    - [ ] 출판사 이름이 없다면 예외발생 - MethodArgumentNotValidException
-    - [ ] 동일한 이름의 출판사가 이미 존재하는 경우 예외 발생 - DuplicateException
+- [x] 출판사 명 입력
+    - [x] 출판사 이름이 없다면 예외발생 - MethodArgumentNotValidException
+    - [x] 동일한 이름의 출판사가 이미 존재하는 경우 예외 발생 - DuplicateException
 ### 책 등록
 - [ ] 제목 입력
     - [ ] 제목이 없으면 예외발생 - MethodArgumentNotValidException
