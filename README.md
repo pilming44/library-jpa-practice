@@ -32,15 +32,15 @@
 - - -
 ### 저자 등록
 - 저자 이름 입력
-    - 저자 이름이 없다면 예외발생 - ValueEmptyException
+    - 저자 이름이 없다면 예외발생 - MethodArgumentNotValidException
     - 동일한 이름의 저자가 이미 존재하는 경우 예외 발생 - DuplicateException
 ### 출판사 등록
 - 출판사 명 입력
-    - 출판사 이름이 없다면 예외발생 - ValueEmptyException
+    - 출판사 이름이 없다면 예외발생 - MethodArgumentNotValidException
     - 동일한 이름의 출판사가 이미 존재하는 경우 예외 발생 - DuplicateException
 ### 책 등록
 - 제목 입력
-    - 제목이 없으면 예외발생 - ValueEmptyException
+    - 제목이 없으면 예외발생 - MethodArgumentNotValidException
 - 저자 입력
     - 존재하지않는 저자일경우 예외발생 - EntityNotFoundException
 - 출판사 입력
@@ -75,9 +75,9 @@
 ### 책 대여
 - 존재하지않는 책을 대여할경우 예외 발생 - EntityNotFoundException
 - 대여자 이름 입력
-    - 대여자 이름이 없으면 예외 발생 - ValueEmptyException
+    - 대여자 이름이 없으면 예외 발생 - MethodArgumentNotValidException
 - 대여 일시 입력
-    - 대여 일시가 없으면 예외발생 - ValueEmptyException
+    - 대여 일시가 없으면 예외발생 - MethodArgumentNotValidException
 - 더이상 대여할수있는 책이 없다면 책의 대여 가능여부를 `대여 불가능`으로 변경
 - 총 보유 권수에 따른 대여기간 적용
   - 1~2권 : 7일
@@ -87,10 +87,10 @@
   
 ### 책 반납, 연체비 조회
 - 대여자 이름, 책 제목 입력
-    - 대여자 이름 또는 책 제목이 없다면 예외 발생 - ValueEmptyException
+    - 대여자 이름 또는 책 제목이 없다면 예외 발생 - MethodArgumentNotValidException
     - 해당 대여 정보가 존재하지 않는 경우 예외 발생 - EntityNotFoundException
 - 반납 일시 입력
-    - 반납 일시가 없다면 예외 발생 - ValueEmptyException
+    - 반납 일시가 없다면 예외 발생 - MethodArgumentNotValidException
     - 대여일시보다 빠르면 예외발생 - ReturnException
 - 대여 불가능 상태였다면 반납 후 `대여 가능`으로 변경
 - 반납 일시와 대여 일시를 기준으로 연체 일 수를 계산하여 연체비정보 리턴
