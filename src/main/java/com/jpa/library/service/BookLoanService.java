@@ -5,6 +5,7 @@ import com.jpa.library.dto.BookLoanForm;
 import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Book;
 import com.jpa.library.entity.BookLoan;
+import com.jpa.library.exception.EntityNotFoundException;
 import com.jpa.library.repository.AuthorRepository;
 import com.jpa.library.repository.BookLoanRepository;
 import com.jpa.library.repository.BookRepository;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,11 +38,10 @@ public class BookLoanService {
 
     @Transactional
     public void loan(BookLoanForm bookLoanForm) {
-        //빌리려는 책 조회 null일수있음
-        Book book = bookRepository.findById(bookLoanForm.getBookId());
+        Book book = bookRepository.findById(bookLoanForm.getBookId())
+                .orElseThrow(() -> new EntityNotFoundException("Book with ID " + bookLoanForm.getBookId() + " not found"));
 
         int unreturnedQuantity = bookLoanRepository.findUnreturnedBookLoansByBookId(bookLoanForm.getBookId()).size();
-
         bookLoanRepository.save(book.loan(bookLoanForm, unreturnedQuantity));
     }
 }

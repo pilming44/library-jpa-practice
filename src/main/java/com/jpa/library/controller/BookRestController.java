@@ -1,6 +1,5 @@
 package com.jpa.library.controller;
 
-import com.jpa.library.dto.BookSummary;
 import com.jpa.library.dto.ResultWrapper;
 import com.jpa.library.service.BookService;
 import lombok.RequiredArgsConstructor;
