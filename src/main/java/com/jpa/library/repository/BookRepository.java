@@ -49,10 +49,37 @@ public class BookRepository {
             query.setParameter("publisherName", "%" + bookSearchForm.getPublisherName() + "%");
         }
 
-        query.setFirstResult((bookSearchForm.getPage()-1) * bookSearchForm.getSize());
+        query.setFirstResult((bookSearchForm.getPage() - 1) * bookSearchForm.getSize());
         query.setMaxResults(bookSearchForm.getSize());
-        
-        
+
         return query.getResultList();
+    }
+
+    public Long countBySearchForm(BookSearchForm bookSearchForm) {
+        StringBuilder countJpql = new StringBuilder("SELECT COUNT(b) FROM Book b LEFT JOIN b.author a LEFT JOIN b.publisher p WHERE 1=1");
+
+        if (bookSearchForm.getTitle() != null && !bookSearchForm.getTitle().isEmpty()) {
+            countJpql.append(" AND b.title LIKE :title");
+        }
+        if (bookSearchForm.getAuthorName() != null && !bookSearchForm.getAuthorName().isEmpty()) {
+            countJpql.append(" AND a.name LIKE :authorName");
+        }
+        if (bookSearchForm.getPublisherName() != null && !bookSearchForm.getPublisherName().isEmpty()) {
+            countJpql.append(" AND p.name LIKE :publisherName");
+        }
+
+        TypedQuery<Long> countQuery = em.createQuery(countJpql.toString(), Long.class);
+
+        if (bookSearchForm.getTitle() != null && !bookSearchForm.getTitle().isEmpty()) {
+            countQuery.setParameter("title", "%" + bookSearchForm.getTitle() + "%");
+        }
+        if (bookSearchForm.getAuthorName() != null && !bookSearchForm.getAuthorName().isEmpty()) {
+            countQuery.setParameter("authorName", "%" + bookSearchForm.getAuthorName() + "%");
+        }
+        if (bookSearchForm.getPublisherName() != null && !bookSearchForm.getPublisherName().isEmpty()) {
+            countQuery.setParameter("publisherName", "%" + bookSearchForm.getPublisherName() + "%");
+        }
+
+        return countQuery.getSingleResult();
     }
 }

@@ -3,6 +3,7 @@ package com.jpa.library.service;
 import com.jpa.library.dto.BookForm;
 import com.jpa.library.dto.BookSearchForm;
 import com.jpa.library.dto.BookSummary;
+import com.jpa.library.dto.ResultWrapper;
 import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Book;
 import com.jpa.library.entity.BookLoan;
@@ -32,8 +33,11 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public List<BookSummary> findBookSummaryList(BookSearchForm bookSearchForm) {
+    public ResultWrapper findBookSummaryList(BookSearchForm bookSearchForm) {
         List<Book> bookList = bookRepository.findAllBySearchForm(bookSearchForm);
+        Long totalCount = bookRepository.countBySearchForm(bookSearchForm);
+        int totalPage = (int) Math.ceil((double) totalCount / bookSearchForm.getSize());
+
         List<BookSummary> bookSummaries = new ArrayList<>();
         for (Book book : bookList) {
             List<BookLoan> unreturnedBookLoans = bookLoanService.findUnreturnedBookLoansByBookId(book.getId());
@@ -46,6 +50,7 @@ public class BookService {
                     .loanQuantity(unreturnedBookLoans.size())
                     .build());
         }
-        return bookSummaries;
+        return new ResultWrapper<>(bookSummaries, totalCount, bookSearchForm.getPage(), bookSearchForm.getSize(), totalPage);
+
     }
 }

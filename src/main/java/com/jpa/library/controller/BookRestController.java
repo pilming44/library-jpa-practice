@@ -19,7 +19,6 @@ public class BookRestController {
 
     @GetMapping("/book/summary")
     public ResponseEntity<ResultWrapper> getBookSummary(@Validated BookSearchForm bookSearchForm) {
-        ResultWrapper resultWrapper = new ResultWrapper(bookService.findBookSummaryList(bookSearchForm));
-        return new ResponseEntity<>(resultWrapper, HttpStatus.OK);
+        return new ResponseEntity<>(bookService.findBookSummaryList(bookSearchForm), HttpStatus.OK);
     }
 }
