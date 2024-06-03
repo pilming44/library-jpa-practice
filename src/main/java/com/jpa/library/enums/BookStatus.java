@@ -1,5 +1,5 @@
 package com.jpa.library.enums;
 
 public enum BookStatus {
-    AVAILABLE, UNAVAILABLE;
+    IN_STOCK, OUT_OF_STOCK;
 }
