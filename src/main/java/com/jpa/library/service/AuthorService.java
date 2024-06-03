@@ -4,6 +4,7 @@ import com.jpa.library.dto.AuthorForm;
 import com.jpa.library.dto.AuthorInfo;
 import com.jpa.library.entity.Author;
 import com.jpa.library.exception.DuplicateException;
+import com.jpa.library.exception.EntityNotFoundException;
 import com.jpa.library.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class AuthorService {
     }
 
     public Author findOne(Long id) {
-        return authorRepository.findOne(id);
+        return authorRepository.findOne(id)
+                .orElseThrow(() -> new EntityNotFoundException("Author with ID " + id + " not found"));
     }
 }

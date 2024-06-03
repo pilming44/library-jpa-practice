@@ -1,12 +1,14 @@
 package com.jpa.library.repository;
 
 import com.jpa.library.entity.Author;
+import com.jpa.library.entity.Book;
 import com.jpa.library.entity.BookLoan;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,8 +19,9 @@ public class AuthorRepository {
         em.persist(author);
     }
 
-    public Author findOne(Long id) {
-        return em.find(Author.class, id);
+    public Optional<Author> findOne(Long id) {
+        Author author = em.find(Author.class, id);
+        return Optional.ofNullable(author);
     }
 
     public boolean existsByName(String name) {

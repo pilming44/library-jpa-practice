@@ -6,6 +6,7 @@ import com.jpa.library.dto.PublisherInfo;
 import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Publisher;
 import com.jpa.library.exception.DuplicateException;
+import com.jpa.library.exception.EntityNotFoundException;
 import com.jpa.library.repository.PublisherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ public class PublisherService {
     }
 
     public Publisher findOne(Long id) {
-        return publisherRepository.findOne(id);
+        return publisherRepository.findOne(id)
+                .orElseThrow(() -> new EntityNotFoundException("Publisher with ID " + id + " not found"));
     }
 }

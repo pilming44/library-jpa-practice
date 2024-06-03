@@ -1,13 +1,13 @@
 package com.jpa.library.service;
 
-import com.jpa.library.dto.BookForm;
-import com.jpa.library.dto.BookSearchForm;
-import com.jpa.library.dto.BookSummary;
-import com.jpa.library.dto.ResultWrapper;
+import com.jpa.library.dto.*;
 import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Book;
 import com.jpa.library.entity.BookLoan;
 import com.jpa.library.entity.Publisher;
+import com.jpa.library.enums.BookStatus;
+import com.jpa.library.exception.DuplicateException;
+import com.jpa.library.exception.EntityNotFoundException;
 import com.jpa.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -26,11 +27,34 @@ public class BookService {
     private final BookLoanService bookLoanService;
 
     @Transactional
-    public void save(BookForm bookForm) {
+    public Long save(BookForm bookForm) {
+        validBookStatus(bookForm);
         Author author = authorService.findOne(bookForm.getAuthorId());
         Publisher publisher = publisherService.findOne(bookForm.getPublisherId());
-        Book book = new Book(bookForm.getTitle(), author, publisher, bookForm.getStatus(), bookForm.getTotalQuantity());
+        duplicationCheck(bookForm, author, publisher);
+        Book book = Book.createBook(bookForm.getTitle(), author, publisher, BookStatus.valueOf(bookForm.getStatus()), bookForm.getTotalQuantity());
         bookRepository.save(book);
+        return book.getId();
+    }
+
+    private void duplicationCheck(BookForm bookForm, Author author, Publisher publisher) {
+        Long duplicationBookCount = bookRepository.countBySearchForm(
+                BookSearchForm.builder()
+                        .title(bookForm.getTitle())
+                        .authorName(author.getName())
+                        .publisherName(publisher.getName())
+                        .build());
+        if (duplicationBookCount > 0) {
+            throw new DuplicateException("이미 등록 된 책입니다.");
+        }
+    }
+
+    private static void validBookStatus(BookForm bookForm) {
+        try {
+            BookStatus.valueOf(bookForm.getStatus());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("유효하지 않은 책 상태입니다: " + bookForm.getStatus());
+        }
     }
 
     public ResultWrapper findBookSummaryList(BookSearchForm bookSearchForm) {
@@ -52,5 +76,17 @@ public class BookService {
         }
         return new ResultWrapper<>(bookSummaries, totalCount, bookSearchForm.getPage(), bookSearchForm.getSize(), totalPage);
 
+    }
+
+    public ResultWrapper findBookInfo(Long bookId) {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        if (bookOptional.isPresent()) {
+            Book book = bookOptional.get();
+            AuthorInfo authorInfo = new AuthorInfo(book.getAuthor().getId(), book.getAuthor().getName());
+            PublisherInfo publisherInfo = new PublisherInfo(book.getPublisher().getId(), book.getPublisher().getName());
+            return new ResultWrapper<>(new BookInfo(book.getId(), book.getTitle(), authorInfo, publisherInfo, book.getStatus(), book.getTotalQuantity()));
+        } else {
+            throw new EntityNotFoundException("책을 찾을 수 없습니다. ID: " + bookId);
+        }
     }
 }

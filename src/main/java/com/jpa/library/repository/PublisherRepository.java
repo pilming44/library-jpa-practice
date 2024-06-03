@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,8 +18,9 @@ public class PublisherRepository {
         em.persist(author);
     }
 
-    public Publisher findOne(Long id) {
-        return em.find(Publisher.class, id);
+    public Optional<Publisher> findOne(Long id) {
+        Publisher publisher = em.find(Publisher.class, id);
+        return Optional.ofNullable(publisher);
     }
 
     public boolean existsByName(String name) {

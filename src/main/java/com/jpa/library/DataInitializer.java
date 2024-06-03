@@ -94,7 +94,7 @@ public class DataInitializer implements ApplicationRunner {
             Long randomAuthorId = random.nextLong(authorNameList.size()) + 1;
             Long randomPublisherId = random.nextLong(publisherNameList.size()) + 1;
             int randomQuantity = random.nextInt(10) + 1;
-            bookService.save(new BookForm(bookTitle, randomAuthorId, randomPublisherId, BookStatus.AVAILABLE, randomQuantity));
+            bookService.save(new BookForm(bookTitle, randomAuthorId, randomPublisherId, BookStatus.IN_STOCK.name(), randomQuantity));
         }
 
     }
