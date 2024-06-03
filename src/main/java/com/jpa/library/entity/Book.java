@@ -31,9 +31,9 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
-    private int totalQuantity;
+    private Integer totalQuantity;
 
-    public Book(String title, Author author, Publisher publisher, BookStatus status, int totalQuantity) {
+    private Book(String title, Author author, Publisher publisher, BookStatus status, int totalQuantity) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
@@ -41,16 +41,26 @@ public class Book {
         this.totalQuantity = totalQuantity;
     }
 
+    public static Book createBook(String title, Author author, Publisher publisher, BookStatus status, int totalQuantity) {
+        if (status == BookStatus.IN_STOCK && totalQuantity <= 0) {
+            throw new IllegalArgumentException("보유중 상태일 땐 책의 수량은 0보다 커야 합니다.");
+        }
+        if (status == BookStatus.OUT_OF_STOCK && !(totalQuantity == 0)) {
+            throw new IllegalArgumentException("미보유 상태일 땐 책의 수량은 0이어야합니다.");
+        }
+        return new Book(title, author, publisher, status, totalQuantity);
+    }
+
     public int getLoanQuantity(int loanQuantity) {
         return totalQuantity - loanQuantity;
     }
 
     public BookLoan loan(BookLoanForm bookLoanForm, int unreturnedQuantity) {
-        if (this.status == BookStatus.UNAVAILABLE) {
+        if (this.status == BookStatus.OUT_OF_STOCK) {
             throw new IllegalArgumentException("대여 불가능한 책입니다.");
         }
         if ((unreturnedQuantity + 1) >= totalQuantity) {
-            this.status = BookStatus.UNAVAILABLE;
+            this.status = BookStatus.OUT_OF_STOCK;
         }
         LocalDateTime dueDate = bookLoanForm.getLoanDate().plusDays(LoanPeriodUtil.getLoanDays(this.totalQuantity));
 
