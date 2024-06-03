@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
                 "Not Found",
-                ex.getMessage(),
+                ex.getMessage() + ": EntityNotFoundException",
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.NOT_FOUND);
@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad Request",
-                ex.getMessage(),
+                ex.getMessage() + ": IllegalArgumentException",
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad Request",
-                messages,
+                messages + ": MethodArgumentNotValidException",
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad Request",
-                ex.getMessage(),
+                ex.getMessage() + ": BorrowException",
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
@@ -73,7 +73,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad Request",
-                ex.getMessage(),
+                ex.getMessage() + ": DuplicateException",
                 request.getDescription(false).replace("uri=", "")
         );
         return new ResponseEntity<>(new ResultWrapper<>(errorResult), HttpStatus.BAD_REQUEST);
