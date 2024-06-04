@@ -17,6 +17,12 @@ public class BookLoanRepository {
         em.persist(bookLoan);
     }
 
+    public List<BookLoan> findByBookId(Long bookId) {
+        return em.createQuery("SELECT bl FROM BookLoan bl WHERE bl.book.id = :bookId", BookLoan.class)
+                .setParameter("bookId", bookId)
+                .getResultList();
+    }
+
     public List<BookLoan> findUnreturnedBookLoansByBookId(Long bookId) {
         return em.createQuery("SELECT bl FROM BookLoan bl WHERE bl.book.id = :bookId AND bl.returnDate IS NULL", BookLoan.class)
                 .setParameter("bookId", bookId)

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Getter
@@ -32,5 +33,17 @@ public class BookLoan {
         this.borrowerName = borrowerName;
         this.loanDate = loanDate;
         this.dueDate = dueDate;
+    }
+
+    public Integer getOverdueDays(LocalDateTime baseTime) {
+        Long overdueDays = ChronoUnit.DAYS.between(dueDate, baseTime);
+        if (overdueDays < 0L) {
+            return 0;
+        }
+
+        if (overdueDays > Integer.MAX_VALUE || overdueDays < Integer.MIN_VALUE) {
+            throw new IllegalArgumentException("연체가 너무 오래됐습니다.");
+        }
+        return overdueDays.intValue();
     }
 }

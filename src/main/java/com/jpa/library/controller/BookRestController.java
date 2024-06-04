@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +30,10 @@ public class BookRestController {
     public ResponseEntity<ResultWrapper> addBook(@Validated BookForm bookForm) {
         Long bookId = bookService.save(bookForm);
         return new ResponseEntity(bookService.findBookInfo(bookId), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/book/{id}")
+    public ResponseEntity<ResultWrapper> bookDetail(@PathVariable("id") Long bookId) {
+        return new ResponseEntity(bookService.findBookDeatil(bookId), HttpStatus.OK);
     }
 }

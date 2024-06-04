@@ -54,4 +54,8 @@ public class BookLoanService {
             throw new BorrowException("같은 책을 중복으로 대여할수없습니다.");
         }
     }
+
+    public List<BookLoan> findByBookId(Long bookId) {
+        return bookLoanRepository.findByBookId(bookId);
+    }
 }

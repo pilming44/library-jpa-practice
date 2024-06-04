@@ -13,9 +13,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -88,5 +90,35 @@ public class BookService {
         } else {
             throw new EntityNotFoundException("책을 찾을 수 없습니다. ID: " + bookId);
         }
+    }
+
+    public ResultWrapper findBookDeatil(Long bookId) {
+        Optional<Book> bookOptional = bookRepository.findById(bookId);
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new EntityNotFoundException("책을 찾을 수 없습니다. ID: " + bookId));
+
+        List<BookLoan> bookLoans = bookLoanService.findByBookId(bookId);
+
+        AuthorInfo authorInfo = new AuthorInfo(book.getAuthor().getId(), book.getAuthor().getName());
+        PublisherInfo publisherInfo = new PublisherInfo(book.getPublisher().getId(), book.getPublisher().getName());
+
+        List<BookLoanStatus> bookLoanStatusList = bookLoans.stream()
+                .map(loan -> new BookLoanStatus(
+                        loan.getBorrowerName(),
+                        loan.getLoanDate(),
+                        loan.getDueDate(),
+                        loan.getOverdueDays(LocalDateTime.now())
+                ))
+                .collect(Collectors.toList());
+        BookDetail bookDetail = new BookDetail(
+                book.getId(),
+                book.getTitle(),
+                authorInfo,
+                publisherInfo,
+                book.getStatus(),
+                book.getTotalQuantity(),
+                bookLoanStatusList
+        );
+        return new ResultWrapper<>(bookDetail);
     }
 }
