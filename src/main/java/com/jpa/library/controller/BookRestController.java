@@ -1,9 +1,6 @@
 package com.jpa.library.controller;
 
-import com.jpa.library.dto.BookForm;
-import com.jpa.library.dto.BookLoanForm;
-import com.jpa.library.dto.BookSearchForm;
-import com.jpa.library.dto.ResultWrapper;
+import com.jpa.library.dto.*;
 import com.jpa.library.service.BookLoanService;
 import com.jpa.library.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -11,10 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,5 +36,10 @@ public class BookRestController {
     @PostMapping("/book/loan")
     public ResponseEntity<ResultWrapper> addBookLoan(@Validated BookLoanForm bookLoanForm) {
         return new ResponseEntity(new ResultWrapper<>(bookLoanService.loan(bookLoanForm)), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/book/return")
+    public ResponseEntity<ResultWrapper> returnBook(@Validated BookReturnForm bookReturnForm) {
+        return new ResponseEntity(bookService.returnBook(bookReturnForm), HttpStatus.OK);
     }
 }

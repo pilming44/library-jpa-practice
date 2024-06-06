@@ -1,5 +1,7 @@
 package com.jpa.library.entity;
 
+import com.jpa.library.enums.BookStatus;
+import com.jpa.library.util.OverdueFeeCalculator;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,7 +38,7 @@ public class BookLoan {
     }
 
     public Integer getOverdueDays(LocalDateTime baseTime) {
-        Long overdueDays = ChronoUnit.DAYS.between(dueDate, baseTime);
+        Long overdueDays = ChronoUnit.DAYS.between(dueDate.toLocalDate(), baseTime.toLocalDate());
         if (overdueDays < 0L) {
             return 0;
         }
@@ -45,5 +47,22 @@ public class BookLoan {
             throw new IllegalArgumentException("연체가 너무 오래됐습니다.");
         }
         return overdueDays.intValue();
+    }
+
+    public Long returnBook(LocalDateTime returnDate) {
+        if (returnDate.isBefore(this.loanDate)) {
+            throw new IllegalArgumentException("반납일시가 대여일시보다 빠를수없습니다.");
+        }
+        this.returnDate = returnDate;
+
+        updateStock();
+
+        return OverdueFeeCalculator.calculateOverdueFee(this.getOverdueDays(returnDate));
+    }
+
+    private void updateStock() {
+        if (this.book.getStatus() == BookStatus.OUT_OF_STOCK) {
+            this.book.changeStatus(BookStatus.IN_STOCK);
+        }
     }
 }

@@ -51,10 +51,6 @@ public class Book {
         return new Book(title, author, publisher, status, totalQuantity);
     }
 
-    public int getLoanQuantity(int loanQuantity) {
-        return totalQuantity - loanQuantity;
-    }
-
     public BookLoan loan(BookLoanForm bookLoanForm, int unreturnedQuantity) {
         if (this.status == BookStatus.OUT_OF_STOCK) {
             throw new IllegalArgumentException("대여 불가능한 책입니다.");
@@ -65,6 +61,10 @@ public class Book {
         LocalDateTime dueDate = bookLoanForm.getLoanDate().plusDays(LoanUtil.getLoanDays(this.totalQuantity));
 
         return new BookLoan(this, bookLoanForm.getBorrowerName(), bookLoanForm.getLoanDate(), dueDate);
+    }
+
+    public void changeStatus(BookStatus newStatus) {
+        this.status = newStatus;
     }
 
 }

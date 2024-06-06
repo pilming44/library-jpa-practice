@@ -10,6 +10,7 @@ import com.jpa.library.exception.DuplicateException;
 import com.jpa.library.exception.EntityNotFoundException;
 import com.jpa.library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
@@ -93,11 +95,10 @@ public class BookService {
     }
 
     public ResultWrapper findBookDeatil(Long bookId) {
-        Optional<Book> bookOptional = bookRepository.findById(bookId);
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException("책을 찾을 수 없습니다. ID: " + bookId));
 
-        List<BookLoan> bookLoans = bookLoanService.findByBookId(bookId);
+        List<BookLoan> bookLoans = bookLoanService.findByBookIdAndReturnDateIsNull(bookId);
 
         AuthorInfo authorInfo = new AuthorInfo(book.getAuthor().getId(), book.getAuthor().getName());
         PublisherInfo publisherInfo = new PublisherInfo(book.getPublisher().getId(), book.getPublisher().getName());
@@ -120,5 +121,22 @@ public class BookService {
                 bookLoanStatusList
         );
         return new ResultWrapper<>(bookDetail);
+    }
+
+    @Transactional
+    public ResultWrapper returnBook(BookReturnForm bookReturnForm) {
+        BookLoan bookLoan = bookLoanService.findByBookNameAndBorrowerName(bookReturnForm.getBookName(), bookReturnForm.getBorrowerName());
+        Long overdueFee = bookLoan.returnBook(bookReturnForm.getReturnDate());
+
+        BookReturnResult returnResult = BookReturnResult.builder()
+                .title(bookLoan.getBook().getTitle())
+                .loanDate(bookLoan.getLoanDate())
+                .dueDate(bookLoan.getDueDate())
+                .returnDate(bookLoan.getReturnDate())
+                .overdueFee(overdueFee)
+                .build();
+
+        return new ResultWrapper<>(returnResult);
+
     }
 }

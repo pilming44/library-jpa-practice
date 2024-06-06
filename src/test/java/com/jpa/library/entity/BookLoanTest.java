@@ -29,14 +29,14 @@ class BookLoanTest {
     @DisplayName("연체일 계산")
     void 연체일_계산() {
         // given
-        BookLoan loan = new BookLoan(borrowableBook, "최재현", LocalDateTime.parse("2024-05-19T15:30:00"), LocalDateTime.parse("2024-05-20T15:30:00"));
-        LocalDateTime baseTime = LocalDateTime.parse("2024-05-25T15:30:00");
+        BookLoan loan = new BookLoan(borrowableBook, "최재현", LocalDateTime.parse("2024-05-19T15:30:00"), LocalDateTime.parse("2024-06-01T15:30:00"));
+        LocalDateTime baseTime = LocalDateTime.parse("2024-06-10T15:30:00");
 
         // when
         Integer overdueDays = loan.getOverdueDays(baseTime);
 
         // then
-        assertThat(overdueDays).isEqualTo(5);
+        assertThat(overdueDays).isEqualTo(9);
     }
 
     @Test

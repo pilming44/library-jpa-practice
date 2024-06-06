@@ -55,7 +55,13 @@ public class BookLoanService {
         }
     }
 
-    public List<BookLoan> findByBookId(Long bookId) {
-        return bookLoanRepository.findByBookId(bookId);
+    public List<BookLoan> findByBookIdAndReturnDateIsNull(Long bookId) {
+        return bookLoanRepository.findByBookIdAndReturnDateIsNull(bookId);
+    }
+
+    public BookLoan findByBookNameAndBorrowerName(String bookName, String borrowerName) {
+        BookLoan bookLoan = bookLoanRepository.findByBookNameAndBorrowerName(bookName, borrowerName)
+                .orElseThrow(() -> new EntityNotFoundException("대여정보가 없습니다."));
+        return bookLoan;
     }
 }

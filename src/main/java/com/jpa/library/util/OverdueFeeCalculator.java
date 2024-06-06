@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OverdueFeeCalculator {
-    public record FeePolicy(int days, int feePerDay) {}
+    public record FeePolicy(int days, Long feePerDay) {}
 
-    public static int calculateOverdueFee(int overdueDays) {
+    public static Long calculateOverdueFee(int overdueDays) {
         List<FeePolicy> feePolicies = new ArrayList<>();
-        feePolicies.add(new FeePolicy(2, 100));
-        feePolicies.add(new FeePolicy(3, 200));
-        feePolicies.add(new FeePolicy(5, 300));
-        feePolicies.add(new FeePolicy(Integer.MAX_VALUE, 500));
+        feePolicies.add(new FeePolicy(2, 100L));
+        feePolicies.add(new FeePolicy(3, 200L));
+        feePolicies.add(new FeePolicy(5, 300L));
+        feePolicies.add(new FeePolicy(Integer.MAX_VALUE, 500L));
 
-        int totalFee = 0;
+        Long totalFee = 0L;
         int remainingDays = overdueDays;
 
         for (FeePolicy policy : feePolicies) {
