@@ -16,7 +16,7 @@ public class BookLoan {
     @Column(name = "book_loan_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
