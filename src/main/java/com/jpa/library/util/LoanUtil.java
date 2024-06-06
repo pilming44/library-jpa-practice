@@ -1,6 +1,6 @@
 package com.jpa.library.util;
 
-public class LoanPeriodUtil {
+public class LoanUtil {
     public static int getLoanDays(int totalQuantity) {
         if (totalQuantity <= 2) {
             return 7;

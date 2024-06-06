@@ -2,7 +2,7 @@ package com.jpa.library.entity;
 
 import com.jpa.library.dto.BookLoanForm;
 import com.jpa.library.enums.BookStatus;
-import com.jpa.library.util.LoanPeriodUtil;
+import com.jpa.library.util.LoanUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,7 +62,7 @@ public class Book {
         if ((unreturnedQuantity + 1) >= totalQuantity) {
             this.status = BookStatus.OUT_OF_STOCK;
         }
-        LocalDateTime dueDate = bookLoanForm.getLoanDate().plusDays(LoanPeriodUtil.getLoanDays(this.totalQuantity));
+        LocalDateTime dueDate = bookLoanForm.getLoanDate().plusDays(LoanUtil.getLoanDays(this.totalQuantity));
 
         return new BookLoan(this, bookLoanForm.getBorrowerName(), bookLoanForm.getLoanDate(), dueDate);
     }
