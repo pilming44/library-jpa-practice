@@ -93,14 +93,20 @@
 - [x] 이미 대여 중인 책을 대여하려는 경우 예외 발생 - BorrowException
 
 ### 책 반납, 연체비 조회
-- [ ] 대여자 이름, 책 제목 입력
-  - [ ] 대여자 이름 또는 책 제목이 없다면 예외 발생 - MethodArgumentNotValidException
-  - [ ] 해당 대여 정보가 존재하지 않는 경우 예외 발생 - EntityNotFoundException
-- [ ] 반납 일시 입력
-  - [ ] 반납 일시가 없다면 예외 발생 - MethodArgumentNotValidException
-  - [ ] 대여일시보다 빠르면 예외발생 - ReturnException
-- [ ] 대여 불가능 상태였다면 반납 후 `대여 가능`으로 변경
-- [ ] 반납 일시와 대여 일시를 기준으로 연체 일 수를 계산하여 연체비정보 리턴
+- [x] 대여자 이름, 책 제목 입력
+  - [x] 대여자 이름 또는 책 제목이 없다면 예외 발생 - MethodArgumentNotValidException
+  - [x] 해당 대여 정보가 존재하지 않는 경우 예외 발생 - EntityNotFoundException
+- [x] 반납 일시 입력
+  - [x] 반납 일시가 없다면 예외 발생 - MethodArgumentNotValidException
+  - [x] 대여일시보다 빠르면 예외발생 - IllegalArgumentException
+- [x] 대여 불가능 상태였다면 반납 후 `대여 가능`으로 변경
+- [x] 응답에 대여 정보 표시
+  - 책 제목
+  - 대여일시
+  - 반납예정일
+  - 반납일시
+  - 연체비
+- [x] 반납 일시와 대여 일시를 기준으로 연체 일 수를 계산하여 연체비정보 리턴
   - 연체 1일 ~ 2일 : 일 당 100원
   - 연체 3일 ~ 5일 : 일 당 200원
   - 연체 6일 ~ 10일 : 일 당 300원
