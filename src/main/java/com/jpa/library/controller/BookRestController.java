@@ -4,6 +4,7 @@ import com.jpa.library.dto.BookForm;
 import com.jpa.library.dto.BookLoanForm;
 import com.jpa.library.dto.BookSearchForm;
 import com.jpa.library.dto.ResultWrapper;
+import com.jpa.library.service.BookLoanService;
 import com.jpa.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class BookRestController {
     private final BookService bookService;
+    private final BookLoanService bookLoanService;
 
     @GetMapping("/book/summary")
     public ResponseEntity<ResultWrapper> getBookSummary(@Validated BookSearchForm bookSearchForm) {
@@ -35,5 +37,10 @@ public class BookRestController {
     @GetMapping("/book/{id}")
     public ResponseEntity<ResultWrapper> bookDetail(@PathVariable("id") Long bookId) {
         return new ResponseEntity(bookService.findBookDeatil(bookId), HttpStatus.OK);
+    }
+
+    @PostMapping("/book/loan")
+    public ResponseEntity<ResultWrapper> addBookLoan(@Validated BookLoanForm bookLoanForm) {
+        return new ResponseEntity(new ResultWrapper<>(bookLoanService.loan(bookLoanForm)), HttpStatus.CREATED);
     }
 }
