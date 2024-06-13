@@ -1,6 +1,5 @@
 package com.jpa.library.repository;
 
-import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Publisher;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;

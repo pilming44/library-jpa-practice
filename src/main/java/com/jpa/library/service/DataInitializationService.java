@@ -5,11 +5,9 @@ import com.jpa.library.dto.BookForm;
 import com.jpa.library.dto.PublisherForm;
 import com.jpa.library.enums.BookStatus;
 import com.jpa.library.exception.DataInitializationException;
-import com.jpa.library.exception.DuplicateException;
 import com.jpa.library.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

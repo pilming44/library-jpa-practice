@@ -1,9 +1,7 @@
 package com.jpa.library.service;
 
-import com.jpa.library.dto.AuthorInfo;
 import com.jpa.library.dto.PublisherForm;
 import com.jpa.library.dto.PublisherInfo;
-import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Publisher;
 import com.jpa.library.exception.DuplicateException;
 import com.jpa.library.exception.EntityNotFoundException;
