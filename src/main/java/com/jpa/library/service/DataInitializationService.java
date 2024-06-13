@@ -8,10 +8,14 @@ import com.jpa.library.exception.DataInitializationException;
 import com.jpa.library.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +26,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class DataInitializationService {
-    private final String AUTHOR_NAME_FILE_PATH = "src/main/resources/static/author_name.txt";
-    private final String PUBLISHER_NAME_FILE_PATH = "src/main/resources/static/publisher_name.txt";
-    private final String BOOK_NAME_FILE_PATH = "src/main/resources/static/book_name.txt";
+    private final String AUTHOR_NAME_FILE_PATH = "static/author_name.txt";
+    private final String PUBLISHER_NAME_FILE_PATH = "static/publisher_name.txt";
+    private final String BOOK_NAME_FILE_PATH = "static/book_name.txt";
 
     private final FileUtil fileUtil;
     private final AuthorService authorService;
@@ -77,10 +81,12 @@ public class DataInitializationService {
     }
 
     private List<String> extractFileData(String filePath) throws IOException {
-        List<String> lines = fileUtil.readLines(filePath);
-        return lines.stream()
-                .flatMap(line -> Arrays.stream(line.split(",")))
-                .map(String::trim)
-                .collect(Collectors.toList());
+        Resource resource = new ClassPathResource(filePath);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()))) {
+            return reader.lines()
+                    .flatMap(line -> Arrays.stream(line.split(",")))
+                    .map(String::trim)
+                    .collect(Collectors.toList());
+        }
     }
 }
