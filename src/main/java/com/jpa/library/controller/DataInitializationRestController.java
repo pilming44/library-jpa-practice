@@ -16,8 +16,8 @@ public class DataInitializationRestController {
     private final DataInitializationService dataInitializationService;
 
     @PostMapping(("/data-init"))
-    public ResponseEntity<Void> initializeData() {
+    public ResponseEntity<String> initializeData() {
         dataInitializationService.initializeData();
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>("초기 데이터가 입력됐습니다.", HttpStatus.OK);
     }
 }
