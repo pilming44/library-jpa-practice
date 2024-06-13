@@ -41,6 +41,7 @@ public class DataInitializationService {
             publisherInitFromFile(PUBLISHER_NAME_FILE_PATH);
             bookInitFromFile(BOOK_NAME_FILE_PATH);
         } catch (Exception e) {
+            log.error(e.getMessage());
             throw new DataInitializationException("초기 데이터를 이미 초기화 했습니다.");
         }
     }
