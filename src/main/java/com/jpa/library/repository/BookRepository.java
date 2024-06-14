@@ -25,7 +25,7 @@ public class BookRepository {
     }
 
     public List<Book> findAllBySearchForm(BookSearchForm bookSearchForm) {
-        StringBuilder jpql = new StringBuilder("SELECT b FROM Book b LEFT JOIN b.author a LEFT JOIN b.publisher p WHERE 1=1");
+        StringBuilder jpql = new StringBuilder("SELECT b FROM Book b LEFT JOIN FETCH b.author a LEFT JOIN FETCH b.publisher p LEFT JOIN FETCH b.bookLoans bl WHERE 1=1");
 
         if (bookSearchForm.getTitle() != null && !bookSearchForm.getTitle().isEmpty()) {
             jpql.append(" AND b.title LIKE :title");
@@ -56,16 +56,16 @@ public class BookRepository {
     }
 
     public Long countBySearchForm(BookSearchForm bookSearchForm) {
-        StringBuilder countJpql = new StringBuilder("SELECT COUNT(b) FROM Book b LEFT JOIN b.author a LEFT JOIN b.publisher p WHERE 1=1");
+        StringBuilder countJpql = new StringBuilder("SELECT COUNT(b.id) FROM Book b WHERE 1=1");
 
         if (bookSearchForm.getTitle() != null && !bookSearchForm.getTitle().isEmpty()) {
             countJpql.append(" AND b.title LIKE :title");
         }
         if (bookSearchForm.getAuthorName() != null && !bookSearchForm.getAuthorName().isEmpty()) {
-            countJpql.append(" AND a.name LIKE :authorName");
+            countJpql.append(" AND b.author.name LIKE :authorName");
         }
         if (bookSearchForm.getPublisherName() != null && !bookSearchForm.getPublisherName().isEmpty()) {
-            countJpql.append(" AND p.name LIKE :publisherName");
+            countJpql.append(" AND b.publisher.name LIKE :publisherName");
         }
 
         TypedQuery<Long> countQuery = em.createQuery(countJpql.toString(), Long.class);

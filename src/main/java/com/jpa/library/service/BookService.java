@@ -68,14 +68,16 @@ public class BookService {
 
         List<BookSummary> bookSummaries = new ArrayList<>();
         for (Book book : bookList) {
-            List<BookLoan> unreturnedBookLoans = bookLoanService.findUnreturnedBookLoansByBookId(book.getId());
+            long loanQuantity = book.getBookLoans().stream()
+                    .filter(bookLoan -> bookLoan.getReturnDate() == null)
+                    .count();
             bookSummaries.add(BookSummary.builder()
                     .id(book.getId())
                     .title(book.getTitle())
                     .authorName(book.getAuthor().getName())
                     .publisherName(book.getPublisher().getName())
                     .totalQuantity(book.getTotalQuantity())
-                    .loanQuantity(unreturnedBookLoans.size())
+                    .loanQuantity(loanQuantity)
                     .build());
         }
         return new ResultWrapper<>(bookSummaries, totalCount, bookSearchForm.getPage(), bookSearchForm.getSize(), totalPage);
