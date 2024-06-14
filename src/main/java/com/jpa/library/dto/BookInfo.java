@@ -16,5 +16,5 @@ public class BookInfo {
     private AuthorInfo authorInfo;
     private PublisherInfo publisherInfo;
     private BookStatus bookStatus;
-    private int totalQuantity;
+    private Long totalQuantity;
 }

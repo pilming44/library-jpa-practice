@@ -18,6 +18,6 @@ public class BookDetail {
     private AuthorInfo authorInfo;
     private PublisherInfo publisherInfo;
     private BookStatus bookStatus;
-    private Integer totalQuantity;
+    private Long totalQuantity;
     private List<BookLoanStatus> bookLoanStatusList;
 }
