@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,9 +33,12 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
-    private Integer totalQuantity;
+    private Long totalQuantity;
 
-    private Book(String title, Author author, Publisher publisher, BookStatus status, int totalQuantity) {
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    private List<BookLoan> bookLoans = new ArrayList<>();
+
+    private Book(String title, Author author, Publisher publisher, BookStatus status, long totalQuantity) {
         this.title = title;
         this.author = author;
         this.publisher = publisher;
