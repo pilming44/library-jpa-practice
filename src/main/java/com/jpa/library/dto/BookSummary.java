@@ -12,6 +12,6 @@ public class BookSummary {
     private String title;
     private String authorName;
     private String publisherName;
-    private int totalQuantity;
-    private int loanQuantity;
+    private Long totalQuantity;
+    private Long loanQuantity;
 }
