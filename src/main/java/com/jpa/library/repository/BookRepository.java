@@ -2,6 +2,7 @@ package com.jpa.library.repository;
 
 import com.jpa.library.dto.BookSearchForm;
 import com.jpa.library.entity.Book;
+import jakarta.persistence.EntityGraph;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
@@ -25,19 +26,23 @@ public class BookRepository {
     }
 
     public List<Book> findAllBySearchForm(BookSearchForm bookSearchForm) {
-        StringBuilder jpql = new StringBuilder("SELECT b FROM Book b LEFT JOIN FETCH b.author a LEFT JOIN FETCH b.publisher p LEFT JOIN FETCH b.bookLoans bl WHERE 1=1");
+        EntityGraph<Book> entityGraph = em.createEntityGraph(Book.class);
+        entityGraph.addAttributeNodes("author", "publisher");
+
+        StringBuilder jpql = new StringBuilder("SELECT b FROM Book b WHERE 1=1");
 
         if (bookSearchForm.getTitle() != null && !bookSearchForm.getTitle().isEmpty()) {
             jpql.append(" AND b.title LIKE :title");
         }
         if (bookSearchForm.getAuthorName() != null && !bookSearchForm.getAuthorName().isEmpty()) {
-            jpql.append(" AND a.name LIKE :authorName");
+            jpql.append(" AND b.author.name LIKE :authorName");
         }
         if (bookSearchForm.getPublisherName() != null && !bookSearchForm.getPublisherName().isEmpty()) {
-            jpql.append(" AND p.name LIKE :publisherName");
+            jpql.append(" AND b.publisher.name LIKE :publisherName");
         }
 
-        TypedQuery<Book> query = em.createQuery(jpql.toString(), Book.class);
+        TypedQuery<Book> query = em.createQuery(jpql.toString(), Book.class)
+                .setHint("jakarta.persistence.loadgraph", entityGraph);
 
         if (bookSearchForm.getTitle() != null && !bookSearchForm.getTitle().isEmpty()) {
             query.setParameter("title", "%" + bookSearchForm.getTitle() + "%");

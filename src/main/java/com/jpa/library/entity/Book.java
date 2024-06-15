@@ -6,6 +6,7 @@ import com.jpa.library.util.LoanUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,6 +37,7 @@ public class Book {
     private Long totalQuantity;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
+    @BatchSize(size = 100)
     private List<BookLoan> bookLoans = new ArrayList<>();
 
     private Book(String title, Author author, Publisher publisher, BookStatus status, long totalQuantity) {
