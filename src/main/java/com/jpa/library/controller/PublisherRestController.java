@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,7 +19,7 @@ public class PublisherRestController {
     private final PublisherService publisherService;
 
     @PostMapping("/publishers")
-    public ResponseEntity<ResultWrapper> addPublisher(@Validated PublisherForm publisherForm) {
+    public ResponseEntity<ResultWrapper> addPublisher(@RequestBody @Validated PublisherForm publisherForm) {
         return new ResponseEntity(new ResultWrapper<>(publisherService.save(publisherForm)), HttpStatus.CREATED);
     }
 }

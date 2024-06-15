@@ -23,7 +23,7 @@ public class BookRestController {
     }
 
     @PostMapping("/book/add")
-    public ResponseEntity<ResultWrapper> addBook(@Validated BookForm bookForm) {
+    public ResponseEntity<ResultWrapper> addBook(@RequestBody @Validated BookForm bookForm) {
         Long bookId = bookService.save(bookForm);
         return new ResponseEntity(bookService.findBookInfo(bookId), HttpStatus.CREATED);
     }
@@ -34,12 +34,12 @@ public class BookRestController {
     }
 
     @PostMapping("/book/loan")
-    public ResponseEntity<ResultWrapper> addBookLoan(@Validated BookLoanForm bookLoanForm) {
+    public ResponseEntity<ResultWrapper> addBookLoan(@RequestBody @Validated BookLoanForm bookLoanForm) {
         return new ResponseEntity(new ResultWrapper<>(bookLoanService.loan(bookLoanForm)), HttpStatus.CREATED);
     }
 
     @PatchMapping("/book/return")
-    public ResponseEntity<ResultWrapper> returnBook(@Validated BookReturnForm bookReturnForm) {
+    public ResponseEntity<ResultWrapper> returnBook(@RequestBody @Validated BookReturnForm bookReturnForm) {
         return new ResponseEntity(bookService.returnBook(bookReturnForm), HttpStatus.OK);
     }
 }
