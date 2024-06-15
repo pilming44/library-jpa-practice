@@ -20,6 +20,7 @@ public class SwaggerConfig {
                         .version("1.0")
                         .description("공부했던 내용들을 실습해보려고 만든 프로젝트입니다.")
                         .contact(new Contact().name("최재현").email("pilming44@naver.com").url("https://github.com/pilming44")))
-                .servers(List.of(new Server().url("http://localhost:8080").description("Local server")));
+                .servers(List.of(new Server().url("http://localhost:8080").description("Local server")
+                        , new Server().url("http://pilming44.me:8080").description("dev server")));
     }
 }
