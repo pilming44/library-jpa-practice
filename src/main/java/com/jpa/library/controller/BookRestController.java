@@ -1,5 +1,6 @@
 package com.jpa.library.controller;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.dto.*;
 import com.jpa.library.service.BookLoanService;
 import com.jpa.library.service.BookService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Trace
 public class BookRestController {
     private final BookService bookService;
     private final BookLoanService bookLoanService;

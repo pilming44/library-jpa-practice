@@ -1,5 +1,6 @@
 package com.jpa.library.service;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.dto.AuthorForm;
 import com.jpa.library.dto.AuthorInfo;
 import com.jpa.library.entity.Author;
@@ -7,12 +8,15 @@ import com.jpa.library.exception.DuplicateException;
 import com.jpa.library.exception.EntityNotFoundException;
 import com.jpa.library.repository.AuthorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
+@Trace
 public class AuthorService {
     private final AuthorRepository authorRepository;
 

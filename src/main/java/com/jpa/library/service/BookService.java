@@ -1,5 +1,6 @@
 package com.jpa.library.service;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.dto.*;
 import com.jpa.library.entity.Author;
 import com.jpa.library.entity.Book;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
+@Trace
 public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;

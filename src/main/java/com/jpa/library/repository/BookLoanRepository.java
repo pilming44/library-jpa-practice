@@ -1,9 +1,11 @@
 package com.jpa.library.repository;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.entity.BookLoan;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
+@Trace
 public class BookLoanRepository {
     private final EntityManager em;
 

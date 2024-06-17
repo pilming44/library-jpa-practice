@@ -1,5 +1,6 @@
 package com.jpa.library.controller;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.service.DataInitializationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Trace
 public class DataInitializationRestController {
     private final DataInitializationService dataInitializationService;
 

@@ -1,5 +1,6 @@
 package com.jpa.library.service;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.dto.BookLoanForm;
 import com.jpa.library.dto.BookLoanResult;
 import com.jpa.library.entity.Book;
@@ -19,6 +20,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
+@Trace
 public class BookLoanService {
     private final BookLoanRepository bookLoanRepository;
     private final BookRepository bookRepository;

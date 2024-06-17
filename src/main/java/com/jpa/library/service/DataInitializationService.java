@@ -1,5 +1,6 @@
 package com.jpa.library.service;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.dto.AuthorForm;
 import com.jpa.library.dto.BookForm;
 import com.jpa.library.dto.PublisherForm;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Trace
 public class DataInitializationService {
     private final String AUTHOR_NAME_FILE_PATH = "static/author_name.txt";
     private final String PUBLISHER_NAME_FILE_PATH = "static/publisher_name.txt";

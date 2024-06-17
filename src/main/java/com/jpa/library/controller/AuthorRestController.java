@@ -1,5 +1,6 @@
 package com.jpa.library.controller;
 
+import com.jpa.library.aop.log.trace.Trace;
 import com.jpa.library.dto.AuthorForm;
 import com.jpa.library.dto.ResultWrapper;
 import com.jpa.library.service.AuthorService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Trace
 public class AuthorRestController {
     private final AuthorService authorService;
 
