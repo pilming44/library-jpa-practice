@@ -44,9 +44,12 @@ spring:
       hibernate:
         format_sql: true
 
-logging.level:
-  org.hibernate.SQL: debug
-  com.jpa.library: debug
+logging:
+  level:
+    org.hibernate.SQL: debug
+    com.jpa.library: debug
+  file:
+    path: /home/logs
 
 management:
   server:
