@@ -36,6 +36,8 @@ spring:
     username: #젠킨스에서 설정
     password: #젠킨스에서 설정
     driver-class-name: org.h2.Driver
+    hikari:
+      maximum-pool-size: 20
 
   jpa:
     hibernate:
