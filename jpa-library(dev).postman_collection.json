@@ -1,0 +1,237 @@
+{
+	"info": {
+		"_postman_id": "1ed0fb48-3472-4582-9e83-7311f96fe3d6",
+		"name": "jpa-library(dev)",
+		"description": "개발 서버로 요청을 전송해보기위한 postman 워크스페이스입니다.\n\n개발서버 구조 :\n\n<img src=\"https://content.pstmn.io/5399083e-3263-4ce6-b5cb-8f1ddf27772a/UGFzdGVkIGltYWdlIDIwMjQwNjE4MTE0OTE1LnBuZw==\" width=\"1036\" height=\"578\">",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22554154"
+	},
+	"item": [
+		{
+			"name": "책 목록 조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://pilming44.me:8080/book/summary?page=1",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"summary"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "authorName",
+							"value": "Ivy",
+							"disabled": true
+						},
+						{
+							"key": "publisherName",
+							"value": "SimonandSchuster",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "저자 등록",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"최재현\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://pilming44.me:8080/authors",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"authors"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "출판사 등록",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"한빛\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://pilming44.me:8080/publishers",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"publishers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "책 등록",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"새로운 책\",\r\n    \"authorId\": 1,\r\n    \"publisherId\": 1,\r\n    \"status\": \"IN_STOCK\",\r\n    \"totalQuantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://pilming44.me:8080/book/add",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "책 상세조회",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://pilming44.me:8080/book/1",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "책 대여",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookId\": 1,\r\n    \"borrowerName\": \"최재현\",\r\n    \"loanDate\": \"2024-06-15T15:09:47.8528129\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://pilming44.me:8080/book/loan",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"loan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "책 반납",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"bookName\": \"최재현 책\",\r\n    \"borrowerName\": \"최재현\",\r\n    \"returnDate\": \"2024-06-25T15:09:47.8528129\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://pilming44.me:8080/book/return",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"book",
+						"return"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "테스트데이터 입력",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://pilming44.me:8080/data-init",
+					"protocol": "http",
+					"host": [
+						"pilming44",
+						"me"
+					],
+					"port": "8080",
+					"path": [
+						"data-init"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
