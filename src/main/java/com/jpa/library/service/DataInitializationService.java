@@ -6,7 +6,6 @@ import com.jpa.library.dto.BookForm;
 import com.jpa.library.dto.PublisherForm;
 import com.jpa.library.enums.BookStatus;
 import com.jpa.library.exception.DataInitializationException;
-import com.jpa.library.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
@@ -32,7 +31,6 @@ public class DataInitializationService {
     private final String PUBLISHER_NAME_FILE_PATH = "static/publisher_name.txt";
     private final String BOOK_NAME_FILE_PATH = "static/book_name.txt";
 
-    private final FileUtil fileUtil;
     private final AuthorService authorService;
     private final PublisherService publisherService;
     private final BookService bookService;
