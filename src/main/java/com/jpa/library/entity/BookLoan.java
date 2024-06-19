@@ -3,6 +3,7 @@ package com.jpa.library.entity;
 import com.jpa.library.enums.BookStatus;
 import com.jpa.library.util.OverdueFeeCalculator;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +12,7 @@ import java.time.temporal.ChronoUnit;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BookLoan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

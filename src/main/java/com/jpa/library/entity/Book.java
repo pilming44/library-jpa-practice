@@ -4,6 +4,7 @@ import com.jpa.library.dto.BookLoanForm;
 import com.jpa.library.enums.BookStatus;
 import com.jpa.library.util.LoanUtil;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.BatchSize;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
