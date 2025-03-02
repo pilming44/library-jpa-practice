@@ -3,8 +3,8 @@
 
 - - -
 # Postman Workspace
-[jpa-library(dev).postman_collection.json](jpa-library%28dev%29.postman_collection.json)
-- postman에서 import 후 호출
+~[jpa-library(dev).postman_collection.json](jpa-library%28dev%29.postman_collection.json)~
+- ~postman에서 import 후 호출~
 
 - - -
 # API 기능목록
